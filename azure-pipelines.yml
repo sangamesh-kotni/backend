@@ -31,6 +31,11 @@ stages:
           vmImage: ubuntu-latest
 #        container: maven:3.8.7-openjdk-18-slim
         steps:
+          - bash: |
+              which java
+              java --version
+            displayName: export the chart to folder
+
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
