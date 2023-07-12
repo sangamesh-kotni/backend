@@ -15,8 +15,8 @@ ENV PATH="/opt/maven/bin:${PATH}"
 
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
-# Define working directory.
-WORKDIR /data
-
-# Define default command.
-CMD ["mvn", "--version"]
+## Define working directory.
+#WORKDIR /data
+#
+## Define default command.
+#CMD ["mvn", "--version"]
