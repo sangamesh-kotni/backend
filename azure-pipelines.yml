@@ -69,7 +69,12 @@ stages:
               command: build
               repository: '$(acr_repo)'
               tags: "1.16.0"
-              
+
+          - bash: |
+              docker image list
+              sleep 3
+            displayName: check java version
+
           - task: Docker@2
             displayName: Push to acr
             inputs:
