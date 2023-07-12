@@ -48,13 +48,18 @@ stages:
               effectivePomSkip: true
               goals: 'package -Dmaven.test.skip=true'
 
-          - task: HelmInstaller@0
-            displayName: 'Install Helm 3.*.*'
+          - task: HelmInstaller@1
+            displayName: Helm installer
             inputs:
-              helmVersion: 3.6.2
-              checkLatestHelmVersion: false
-              kubectlVersion: 1.24.9
-              checkLatestKubectl: false
+              helmVersionToInstall: 2.14.1
+
+#          - task: HelmInstaller@0
+#            displayName: 'Install Helm 3.*.*'
+#            inputs:
+#              helmVersion: 3.6.2
+#              checkLatestHelmVersion: false
+#              kubectlVersion: 1.24.9
+#              checkLatestKubectl: false
 
           - script: |
               export HELM_EXPERIMENTAL_OCI=1
