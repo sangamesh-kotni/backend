@@ -1,0 +1,57 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: employees-app-service
+  labels:
+    name: employees-app
+spec:
+  ports:
+    - nodePort: 30163
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: employees-app
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employees-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: employees-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: employees-app
+    spec:
+      containers:
+        - name: employees-app
+          image: beginneracademy/springboot20may:28
+          ports:
+            - containerPort: 8080
+          env:   # Setting Enviornmental Variables
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config  # name of configMap
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: name
+            - name: DB_USERNAME  # Setting Database username from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-user # Secret Name
+                  key: username
+            - name: DB_PASSWORD # Setting Database password from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: password
