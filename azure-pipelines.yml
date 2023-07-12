@@ -19,7 +19,7 @@ variables:
   azureResourceGroup_AKS: 'intern-sangam'
   acr.repo.name: 'backenddemo'
   kubernetesCluster: 'aks-sangam'
-  image_tag: 1.16.1
+  image_tag: 1.16.2
 
 stages:
   - stage: Backend_Build
