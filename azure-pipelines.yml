@@ -29,13 +29,21 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-#        container: maven:3.8-openjdk-18
+        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
         steps:
+#          - task: JavaToolInstaller@0
+#            inputs:
+#              versionSpec: '17'
+#              jdkArchitectureOption: 'x64'
+#              jdkSourceOption: 'PreInstalled'
+#            displayName: 'Installing Java 17'
+
           - task: JavaToolInstaller@0
             inputs:
               versionSpec: '18'
               jdkArchitectureOption: 'x64'
               jdkSourceOption: 'PreInstalled'
+
           - bash: |
               which java
               java --version
