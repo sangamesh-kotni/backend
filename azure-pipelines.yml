@@ -42,6 +42,14 @@ stages:
               effectivePomSkip: true
               goals: 'package -Dmaven.test.skip=true'
 
+          - task: HelmInstaller@0
+            displayName: 'Install Helm 3.*.*'
+            inputs:
+              helmVersion: 3.6.2
+              checkLatestHelmVersion: false
+              kubectlVersion: 1.24.9
+              checkLatestKubectl: false
+
           - script: |
               export HELM_EXPERIMENTAL_OCI=1
               echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
@@ -54,19 +62,11 @@ stages:
               repository: '$(acr_repo)'
               tags: "1.16.0"
 
-          - task: HelmInstaller@0
-            displayName: 'Install Helm 3.*.*'
-            inputs:
-              helmVersion: 3.6.2
-              checkLatestHelmVersion: false
-              kubectlVersion: 1.24.9
-              checkLatestKubectl: false
-
-          - task: Docker@2
-            displayName: Login to ACR
-            inputs:
-              command: login
-              containerRegistry: $(acr_service_name)
+#          - task: Docker@2
+#            displayName: Login to ACR
+#            inputs:
+#              command: login
+#              containerRegistry: $(acr_service_name)
 
           - task: HelmDeploy@0
             displayName: 'Helm package backenddemo'
