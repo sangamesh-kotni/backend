@@ -47,6 +47,7 @@ stages:
           - bash: |
               which java
               java --version
+              ls -lrt /opt/
               mvn -v
             displayName: check java version
 
