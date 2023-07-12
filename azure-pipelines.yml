@@ -1,6 +1,7 @@
 trigger: none
 pool:
   vmImage: ubuntu-latest
+
 container: maven:3.8.1-openjdk-20-slim
 
 #Your build pipeline references an undefined variable named ‘aiKey’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
