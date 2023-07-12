@@ -1,5 +1,5 @@
 # Example using MS Build of OpenJDK image directly
-FROM mcr.microsoft.com/openjdk/jdk:17-ubuntu
+FROM --platform=linux/amd64 mcr.microsoft.com/openjdk/jdk:17-ubuntu
 
 # Continue with your application deployment
 ARG USER_HOME_DIR="/root"
