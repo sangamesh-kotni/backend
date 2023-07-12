@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: employees-app
-          image: beginneracademy/springboot20may:28
+          image: acrsangam.azurecr.io/backend-demo:1.16.0
           ports:
             - containerPort: 8080
           env:   # Setting Enviornmental Variables
