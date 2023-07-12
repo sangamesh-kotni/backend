@@ -34,14 +34,14 @@ stages:
           - bash: |
               which java
               java --version
-            displayName: export the chart to folder
+            displayName: check java version
 
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
               mavenOptions: '-Xmx3072m'
               javaHomeOption: 'JDKVersion'
-              jdkDirectory: '/usr/local/openjdk-20'
+              jdkDirectory: '/usr/local/openjdk-11'
               publishJUnitResults: false
               mavenAuthenticateFeed: true
               effectivePomSkip: true
