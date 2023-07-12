@@ -8,10 +8,11 @@ ARG USER_HOME_DIR="/root"
 RUN apt-get update && \
 apt-get install -y git build-essential curl wget software-properties-common zip unzip
 
-RUN wget https://dlcdn.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
+RUN wget https://dlcdn.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz &&  \
+    tar -xvf apache-maven-3.9.3-bin.tar.gz -C /opt/
 
-ENV M2_HOME /opt/maven
-ENV PATH="/opt/maven/bin:${PATH}"
+ENV M2_HOME /opt/apache-maven-3.9.3
+ENV PATH="/opt/apache-maven-3.9.3/bin:${PATH}"
 
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
