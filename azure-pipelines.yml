@@ -47,10 +47,7 @@ stages:
           - bash: |
               which java
               java --version
-#              sudo apt-get -y install zip
               echo "##vso[task.setvariable variable=M2_HOME]/opt/maven"
-              
-              mvn
             displayName: check java version
 
           - task: Maven@3
