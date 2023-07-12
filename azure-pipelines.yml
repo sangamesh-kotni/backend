@@ -21,110 +21,110 @@ variables:
   acr.repo.name: 'backenddemo'
   kubernetesCluster: 'aks-sangam'
 
-#stages:
-#  - stage: Backend_Build
-#    displayName: 'Backend Build & Push to ACR'
-#    jobs:
-#      - job: Build
-#        displayName: Build
-#        steps:
-#          - task: Docker@2
-#            displayName: Login to ACR
-#            inputs:
-#              command: login
-#              containerRegistry: $(acr_service_name)
-#
-#          - task: Maven@3
-#            inputs:
-#              mavenPomFile: 'pom.xml'
-#              mavenOptions: '-Xmx3072m'
-#              javaHomeOption: 'JDKVersion'
-#              jdkDirectory: '/usr/local/openjdk-20'
-#              publishJUnitResults: false
-#              mavenAuthenticateFeed: true
-#              effectivePomSkip: true
-#              goals: 'package -Dmaven.test.skip=true'
-#
-#          - task: Docker@2
-#            displayName: Build and Push
-#            inputs:
-#              command: buildAndPush
-#              repository: '$(acr_repo)'
-#              tags: "1.16.0"
-#
-#          - task: HelmInstaller@0
-#            displayName: 'Install Helm 3.*.*'
-#            inputs:
-#              helmVersion: 3.6.2
-#              checkLatestHelmVersion: false
-#              kubectlVersion: 1.24.9
-#              checkLatestKubectl: false
-#
-#          - task: HelmDeploy@0
-#            displayName: 'Helm package backenddemo'
-#            inputs:
-#              command: package
-#              chartPath: backenddemo
-#              destination: '$(Build.ArtifactStagingDirectory)'
-#
-#          - bash: |
-#              export HELM_EXPERIMENTAL_OCI=1
-#
-#          - task: HelmDeploy@0
-#            displayName: Helm Chart Push
-#            inputs:
-#              command: save
-#              chartNameForACR: backend:v1
-#              chartPathForACR: '$(Build.ArtifactStagingDirectory)/springboot-backend-0.1.0.tgz'
-#              azureSubscriptionEndpointForACR: $(azureSubscriptionEndpointForACR)
-#              azureResourceGroupForACR: $(azureResourceGroup)
-#              azureContainerRegistry: "$(acr.name).azurecr.io"
-#
-#  - stage: Deployment
-#    displayName: Helm pull
-#    jobs:
-#      - deployment: helm_publish_aks
-#        displayName: deploy to aks
-#        environment:
-#          name: PROD
-#        #            resourceName: helmdemo
-#        #            resourceType: Kubernetes
-#        strategy:
-#          runOnce:
-#            deploy:
-#              steps:
-#                - task: HelmInstaller@0
-#                  displayName: 'Install Helm 3.*.*'
-#                  inputs:
-#                    helmVersion: 3.6.2
-#                    checkLatestHelmVersion: false
-#                    kubectlVersion: 1.24.9
-#                    checkLatestKubectl: false
-#
-#                - script: |
-#                    export HELM_EXPERIMENTAL_OCI=1
-#                    echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
-#                  displayName: login to acr using helm
-#
-#                - bash: |
-#                    export HELM_EXPERIMENTAL_OCI=1
-#                    helm chart pull $(acr.name).azurecr.io/$(acr.repo.name):v1
-#                    export HELM_EXPERIMENTAL_OCI=1
-#                    helm chart export $(acr.name).azurecr.io/$(acr.repo.name):v1 --destination $(System.DefaultWorkingDirectory)
-#                    pwd
-#                    ls -lrt $(System.DefaultWorkingDirectory)
-#                  displayName: export the chart to folder
-#
-#                - task: HelmDeploy@0
-#                  displayName: deploy chart to aks
-#                  inputs:
-#                    connectionType: 'Azure Resource Manager'
-#                    azureSubscription: '$(azure.service.connection)'
-#                    azureResourceGroup: '$(azureResourceGroup_AKS)'
-#                    kubernetesCluster: '$(kubernetesCluster)'
-#                    namespace: '$(namespace)'
-#                    command: 'upgrade'
-#                    chartType: 'FilePath'
-#                    chartPath: '$(System.DefaultWorkingDirectory)/backenddemo'
-#                    releaseName: 'helmbackend'
-#                    arguments: '--create-namespace --install --debug --wait --timeout 10m'
+stages:
+  - stage: Backend_Build
+    displayName: 'Backend Build & Push to ACR'
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+          - task: Docker@2
+            displayName: Login to ACR
+            inputs:
+              command: login
+              containerRegistry: $(acr_service_name)
+
+          - task: Maven@3
+            inputs:
+              mavenPomFile: 'pom.xml'
+              mavenOptions: '-Xmx3072m'
+              javaHomeOption: 'JDKVersion'
+              jdkDirectory: '/usr/local/openjdk-20'
+              publishJUnitResults: false
+              mavenAuthenticateFeed: true
+              effectivePomSkip: true
+              goals: 'package -Dmaven.test.skip=true'
+
+          - task: Docker@2
+            displayName: Build and Push
+            inputs:
+              command: buildAndPush
+              repository: '$(acr_repo)'
+              tags: "1.16.0"
+
+          - task: HelmInstaller@0
+            displayName: 'Install Helm 3.*.*'
+            inputs:
+              helmVersion: 3.6.2
+              checkLatestHelmVersion: false
+              kubectlVersion: 1.24.9
+              checkLatestKubectl: false
+
+          - task: HelmDeploy@0
+            displayName: 'Helm package backenddemo'
+            inputs:
+              command: package
+              chartPath: backenddemo
+              destination: '$(Build.ArtifactStagingDirectory)'
+
+          - bash: |
+              export HELM_EXPERIMENTAL_OCI=1
+
+          - task: HelmDeploy@0
+            displayName: Helm Chart Push
+            inputs:
+              command: save
+              chartNameForACR: backend:v1
+              chartPathForACR: '$(Build.ArtifactStagingDirectory)/springboot-backend-0.1.0.tgz'
+              azureSubscriptionEndpointForACR: $(azureSubscriptionEndpointForACR)
+              azureResourceGroupForACR: $(azureResourceGroup)
+              azureContainerRegistry: "$(acr.name).azurecr.io"
+
+  - stage: Deployment
+    displayName: Helm pull
+    jobs:
+      - deployment: helm_publish_aks
+        displayName: deploy to aks
+        environment:
+          name: PROD
+        #            resourceName: helmdemo
+        #            resourceType: Kubernetes
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: HelmInstaller@0
+                  displayName: 'Install Helm 3.*.*'
+                  inputs:
+                    helmVersion: 3.6.2
+                    checkLatestHelmVersion: false
+                    kubectlVersion: 1.24.9
+                    checkLatestKubectl: false
+
+                - script: |
+                    export HELM_EXPERIMENTAL_OCI=1
+                    echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
+                  displayName: login to acr using helm
+
+                - bash: |
+                    export HELM_EXPERIMENTAL_OCI=1
+                    helm chart pull $(acr.name).azurecr.io/$(acr.repo.name):v1
+                    export HELM_EXPERIMENTAL_OCI=1
+                    helm chart export $(acr.name).azurecr.io/$(acr.repo.name):v1 --destination $(System.DefaultWorkingDirectory)
+                    pwd
+                    ls -lrt $(System.DefaultWorkingDirectory)
+                  displayName: export the chart to folder
+
+                - task: HelmDeploy@0
+                  displayName: deploy chart to aks
+                  inputs:
+                    connectionType: 'Azure Resource Manager'
+                    azureSubscription: '$(azure.service.connection)'
+                    azureResourceGroup: '$(azureResourceGroup_AKS)'
+                    kubernetesCluster: '$(kubernetesCluster)'
+                    namespace: '$(namespace)'
+                    command: 'upgrade'
+                    chartType: 'FilePath'
+                    chartPath: '$(System.DefaultWorkingDirectory)/backenddemo'
+                    releaseName: 'helmbackend'
+                    arguments: '--create-namespace --install --debug --wait --timeout 10m'
