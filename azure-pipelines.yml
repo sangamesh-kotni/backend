@@ -76,7 +76,7 @@ stages:
               command: push
               repository: '$(acr_repo)'
               containerRegistry: $(acr_service_name)
-#              tags: myregistry.azurecr.io/ubuntu-qt:5.12.4
+              tags: '$(acr_repo)/$(acr.repo.name):"1.16.0"'
 
 
 #          - task: HelmInstaller@1
