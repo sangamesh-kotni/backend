@@ -29,7 +29,7 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-#        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
+        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
         steps:
 #          - task: JavaToolInstaller@0
 #            inputs:
