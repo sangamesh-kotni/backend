@@ -7,19 +7,12 @@ trigger: none
 #Your build pipeline references an undefined variable named ‘aiKey’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
 variables:
   acr_service_name: 'ac1'
-  acr_repo: 'backend-demo'
   acr.name: 'acrsangam.azurecr.io'
-  azureSubscriptionEndpoint: 'beginner.academy'
-  azureSubscriptionEndpointForACR: '12_july_aks_sc'
-  azureResourceGroup: 'intern-sangam'
   acr.pull.password: 'gg59ZfHHH4Oc4I8nxzl4qmN+4d8XrNXhq4EPdmrMiY+ACRDHmaqQ'
   acr.pull.username: 'token-sangam'
-  namespace: 'backendns'
+  acr_repo: 'backend-demo'
+  image_tag: 1.16.3
   azure.service.connection: '12_july_aks_sc'
-  azureResourceGroup_AKS: 'intern-sangam'
-  acr.repo.name: 'backenddemo'
-  kubernetesCluster: 'aks-sangam'
-  image_tag: 1.16.2
 
 stages:
   - stage: Backend_Build
@@ -93,7 +86,7 @@ stages:
                   displayName: kubectl deploy mysql-root-secret.yaml
                   inputs:
                     connectionType: 'Kubernetes Service Connection'
-                    kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
                     command: 'apply'
                     arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-root-secret.yaml'
                     secretType: 'dockerRegistry'
@@ -103,7 +96,7 @@ stages:
                   displayName: kubectl deploy mysql-user-secret.yaml
                   inputs:
                     connectionType: 'Kubernetes Service Connection'
-                    kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
                     command: 'apply'
                     arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-user-secret.yaml'
                     secretType: 'dockerRegistry'
@@ -114,7 +107,7 @@ stages:
                   displayName: kubectl deploy mysql-configmap
                   inputs:
                     connectionType: 'Kubernetes Service Connection'
-                    kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
                     command: 'apply'
                     arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-configmap.yaml'
                     secretType: 'dockerRegistry'
@@ -124,7 +117,7 @@ stages:
                   displayName: kubectl deploy mysql-deployment.yaml
                   inputs:
                     connectionType: 'Kubernetes Service Connection'
-                    kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
                     command: 'apply'
                     arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-deployment.yaml'
                     secretType: 'dockerRegistry'
@@ -134,7 +127,7 @@ stages:
                   displayName: kubectl deploy spring-demo-deployment
                   inputs:
                     connectionType: 'Kubernetes Service Connection'
-                    kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
                     command: 'apply'
                     arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/spring-deployment.yaml'
                     secretType: 'dockerRegistry'
