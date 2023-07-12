@@ -8,8 +8,7 @@ trigger: none
 variables:
   acr_service_name: 'ac1'
   acr_repo: 'backend-demo'
-  acr.name: 'acrsangam'
-  #azureContainerRegistry: 'acrsangam.azurecr.io'
+  acr.name: 'acrsangam.azurecr.io'
   azureSubscriptionEndpoint: 'beginner.academy'
   azureSubscriptionEndpointForACR: '12_july_aks_sc'
   azureResourceGroup: 'intern-sangam'
@@ -31,19 +30,6 @@ stages:
           vmImage: ubuntu-latest
         container: beginneracademy/azdoagent:1.4
         steps:
-#          - task: JavaToolInstaller@0
-#            inputs:
-#              versionSpec: '17'
-#              jdkArchitectureOption: 'x64'
-#              jdkSourceOption: 'PreInstalled'
-#            displayName: 'Installing Java 17'
-#
-#          - task: JavaToolInstaller@0
-#            inputs:
-#              versionSpec: '18'
-#              jdkArchitectureOption: 'x64'
-#              jdkSourceOption: 'PreInstalled'
-
           - bash: |
               which java
               java --version
@@ -67,7 +53,7 @@ stages:
             displayName: "Build"
             inputs:
               command: build
-              repository: '$(acr_repo)'
+              repository: '$(acr.name)/$(acr_repo)'
               tags: "1.16.0"
 
           - bash: |
@@ -85,7 +71,7 @@ stages:
             displayName: Push to acr
             inputs:
               command: push
-              repository: '$(acr_repo)'
+              repository: '$(acr.name)/$(acr_repo)'
               containerRegistry: $(acr_service_name)
               tags: '1.16.0'
 
