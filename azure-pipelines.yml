@@ -71,7 +71,7 @@ stages:
             displayName: Push to acr
             inputs:
               command: push
-              repository: '$(acr.name)/$(acr_repo)'
+              repository: '$(acr_repo)'
               containerRegistry: $(acr_service_name)
               tags: '1.16.0'
 
