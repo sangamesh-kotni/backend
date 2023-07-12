@@ -6,7 +6,7 @@ trigger: none
 
 #Your build pipeline references an undefined variable named ‘aiKey’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
 variables:
-  acr_service_name: 'acr'
+  acr_service_name: 'ac1'
   acr_repo: 'backend-demo'
   acr.name: 'acrsangam'
   #azureContainerRegistry: 'acrsangam.azurecr.io'
