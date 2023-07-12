@@ -29,7 +29,7 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-        container: maven:3.8.1-openjdk-20-slim
+        container: maven:3.8.7-openjdk-18-slim
         steps:
           - task: Maven@3
             inputs:
