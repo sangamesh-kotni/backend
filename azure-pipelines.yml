@@ -47,6 +47,8 @@ stages:
           - bash: |
               which java
               java --version
+              which mvn
+              ls -lrta /opt/maven/
               echo "##vso[task.setvariable variable=M2_HOME]/opt/maven"
             displayName: check java version
 
