@@ -13,10 +13,10 @@ spring:
     hibernate:
       ddl-auto: update
 
-server:
-  port: 8443
-  ssl:
-    key-store: /app/local.cert-chain.pem
-    key-store-password: "NNtN9t{hVcYTp5ji:9P4$K]="
-    keyStoreType: PKCS12
-    keyAlias: "mothertongue.online"
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: /app/local.cert-chain.pem
+#    key-store-password: "NNtN9t{hVcYTp5ji:9P4$K]="
+#    keyStoreType: PKCS12
+#    keyAlias: "mothertongue.online"
