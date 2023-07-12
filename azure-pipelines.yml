@@ -29,7 +29,7 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
+#        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
         steps:
 #          - task: JavaToolInstaller@0
 #            inputs:
@@ -63,46 +63,55 @@ stages:
               effectivePomSkip: true
               goals: 'package -Dmaven.test.skip=true'
 
-          - task: HelmInstaller@1
-            displayName: Helm installer
-            inputs:
-              helmVersionToInstall: 2.14.1
-
-#          - task: HelmInstaller@0
-#            displayName: 'Install Helm 3.*.*'
-#            inputs:
-#              helmVersion: 3.6.2
-#              checkLatestHelmVersion: false
-#              kubectlVersion: 1.24.9
-#              checkLatestKubectl: false
-
-          - script: |
-              export HELM_EXPERIMENTAL_OCI=1
-              echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
-            displayName: login to acr using helm
-
           - task: Docker@2
-            displayName: Build and Push
+            displayName: "Build"
             inputs:
-              command: buildAndPush
+              command: build
               repository: '$(acr_repo)'
               tags: "1.16.0"
-
-#          - task: Docker@2
-#            displayName: Login to ACR
-#            inputs:
-#              command: login
-#              containerRegistry: $(acr_service_name)
-
-          - task: HelmDeploy@0
-            displayName: 'Helm package backenddemo'
+              
+          - task: Docker@2
+            displayName: Push to acr
             inputs:
-              command: package
-              chartPath: backenddemo
-              destination: '$(Build.ArtifactStagingDirectory)'
+              command: push
+              repository: '$(acr_repo)'
+              containerRegistry: $(acr_service_name)
+#              tags: myregistry.azurecr.io/ubuntu-qt:5.12.4
 
-          - bash: |
-              export HELM_EXPERIMENTAL_OCI=1
+
+#          - task: HelmInstaller@1
+#            displayName: Helm installer
+#            inputs:
+#              helmVersionToInstall: 2.14.1
+#
+#
+#          - script: |
+#              export HELM_EXPERIMENTAL_OCI=1
+#              echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
+#            displayName: login to acr using helm
+#
+#          - task: Docker@2
+#            displayName: Build and Push
+#            inputs:
+#              command: buildAndPush
+#              repository: '$(acr_repo)'
+#              tags: "1.16.0"
+#
+##          - task: Docker@2
+##            displayName: Login to ACR
+##            inputs:
+##              command: login
+##              containerRegistry: $(acr_service_name)
+#
+#          - task: HelmDeploy@0
+#            displayName: 'Helm package backenddemo'
+#            inputs:
+#              command: package
+#              chartPath: backenddemo
+#              destination: '$(Build.ArtifactStagingDirectory)'
+#
+#          - bash: |
+#              export HELM_EXPERIMENTAL_OCI=1
 #
 #          - task: HelmDeploy@0
 #            displayName: Helm Chart Push
@@ -114,40 +123,40 @@ stages:
 #              azureResourceGroupForACR: $(azureResourceGroup)
 #              azureContainerRegistry: "$(acr.name).azurecr.io"
 
-  - stage: Deployment
-    displayName: Helm pull
-    jobs:
-      - deployment: helm_publish_aks
-        displayName: deploy to aks
-        environment:
-          name: PROD
-        #            resourceName: helmdemo
-        #            resourceType: Kubernetes
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - task: HelmInstaller@0
-                  displayName: 'Install Helm 3.*.*'
-                  inputs:
-                    helmVersion: 3.6.2
-                    checkLatestHelmVersion: false
-                    kubectlVersion: 1.24.9
-                    checkLatestKubectl: false
-
-                - script: |
-                    export HELM_EXPERIMENTAL_OCI=1
-                    echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
-                  displayName: login to acr using helm
-
-                - bash: |
-                    export HELM_EXPERIMENTAL_OCI=1
-                    helm chart pull $(acr.name).azurecr.io/$(acr.repo.name):v1
-                    export HELM_EXPERIMENTAL_OCI=1
-                    helm chart export $(acr.name).azurecr.io/$(acr.repo.name):v1 --destination $(System.DefaultWorkingDirectory)
-                    pwd
-                    ls -lrt $(System.DefaultWorkingDirectory)
-                  displayName: export the chart to folder
+#  - stage: Deployment
+#    displayName: Helm pull
+#    jobs:
+#      - deployment: helm_publish_aks
+#        displayName: deploy to aks
+#        environment:
+#          name: PROD
+#        #            resourceName: helmdemo
+#        #            resourceType: Kubernetes
+#        strategy:
+#          runOnce:
+#            deploy:
+#              steps:
+#                - task: HelmInstaller@0
+#                  displayName: 'Install Helm 3.*.*'
+#                  inputs:
+#                    helmVersion: 3.6.2
+#                    checkLatestHelmVersion: false
+#                    kubectlVersion: 1.24.9
+#                    checkLatestKubectl: false
+#
+#                - script: |
+#                    export HELM_EXPERIMENTAL_OCI=1
+#                    echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
+#                  displayName: login to acr using helm
+#
+#                - bash: |
+#                    export HELM_EXPERIMENTAL_OCI=1
+#                    helm chart pull $(acr.name).azurecr.io/$(acr.repo.name):v1
+#                    export HELM_EXPERIMENTAL_OCI=1
+#                    helm chart export $(acr.name).azurecr.io/$(acr.repo.name):v1 --destination $(System.DefaultWorkingDirectory)
+#                    pwd
+#                    ls -lrt $(System.DefaultWorkingDirectory)
+#                  displayName: export the chart to folder
 
 #                - task: HelmDeploy@0
 #                  displayName: deploy chart to aks
