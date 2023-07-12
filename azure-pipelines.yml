@@ -135,6 +135,6 @@ stages:
                     connectionType: 'Kubernetes Service Connection'
                     kubernetesServiceEndpoint: '$(azureSubscriptionEndpointForACR)'
                     command: 'apply'
-                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/spring-demo-deployment.yaml'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/spring-deployment.yaml'
                     secretType: 'dockerRegistry'
                     containerRegistryType: 'Azure Container Registry'
