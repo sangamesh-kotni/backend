@@ -69,16 +69,16 @@ stages:
 
           - bash: |
               export HELM_EXPERIMENTAL_OCI=1
-
-          - task: HelmDeploy@0
-            displayName: Helm Chart Push
-            inputs:
-              command: save
-              chartNameForACR: backend:v1
-              chartPathForACR: '$(Build.ArtifactStagingDirectory)/springboot-backend-0.1.0.tgz'
-              azureSubscriptionEndpointForACR: $(azureSubscriptionEndpointForACR)
-              azureResourceGroupForACR: $(azureResourceGroup)
-              azureContainerRegistry: "$(acr.name).azurecr.io"
+#
+#          - task: HelmDeploy@0
+#            displayName: Helm Chart Push
+#            inputs:
+#              command: save
+#              chartNameForACR: backend:v1
+#              chartPathForACR: '$(Build.ArtifactStagingDirectory)/springboot-backend-0.1.0.tgz'
+#              azureSubscriptionEndpointForACR: $(azureSubscriptionEndpointForACR)
+#              azureResourceGroupForACR: $(azureResourceGroup)
+#              azureContainerRegistry: "$(acr.name).azurecr.io"
 
   - stage: Deployment
     displayName: Helm pull
