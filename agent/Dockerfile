@@ -16,6 +16,11 @@ ENV PATH="/opt/apache-maven-3.9.3/bin:${PATH}"
 
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
+RUN apt-get update
+RUN apt install docker.io -y
+RUN docker --version
+#ENTRYPOINT nohup dockerd >/dev/null 2>&1 & sleep 10
+
 ## Define working directory.
 #WORKDIR /data
 #

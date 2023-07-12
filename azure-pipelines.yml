@@ -29,7 +29,7 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-        container: beginneracademy/azdoagent:1.3
+        container: beginneracademy/azdoagent:1.4
         steps:
 #          - task: JavaToolInstaller@0
 #            inputs:
@@ -48,6 +48,7 @@ stages:
               which java
               java --version
               ls -lrt /opt/
+              docker --version
               mvn -v
             displayName: check java version
 
