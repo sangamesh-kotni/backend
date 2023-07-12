@@ -34,7 +34,7 @@ stages:
           - bash: |
               which java
               java --version
-              sudo apt-get -y install zip
+#              sudo apt-get -y install zip
             displayName: check java version
 
           - task: Maven@3
