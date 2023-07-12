@@ -19,6 +19,7 @@ variables:
   azureResourceGroup_AKS: 'intern-sangam'
   acr.repo.name: 'backenddemo'
   kubernetesCluster: 'aks-sangam'
+  image_tag: 1.16.1
 
 stages:
   - stage: Backend_Build
@@ -55,7 +56,7 @@ stages:
             inputs:
               command: build
               repository: '$(acr.name)/$(acr_repo)'
-              tags: "1.16.0"
+              tags: "$(image_tag)"
 
           - bash: |
               docker image list
@@ -74,7 +75,7 @@ stages:
               command: push
               repository: '$(acr_repo)'
               containerRegistry: $(acr_service_name)
-              tags: '1.16.0'
+              tags: "$(image_tag)"
 
   - stage: Deployment
     displayName: kubectl deploy to AKS

@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: employees-app
-          image: acrsangam.azurecr.io/backend-demo:1.16.0
+          image: acrsangam.azurecr.io/backend-demo:1.16.1
           ports:
             - containerPort: 8080
           env:   # Setting Enviornmental Variables
