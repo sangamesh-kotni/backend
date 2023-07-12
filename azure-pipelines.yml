@@ -47,7 +47,6 @@ stages:
           - bash: |
               which java
               java --version
-              which mvn
             displayName: check java version
 
           - task: Maven@3
