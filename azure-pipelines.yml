@@ -28,12 +28,6 @@ stages:
       - job: Build
         displayName: Build
         steps:
-          - task: Docker@2
-            displayName: Login to ACR
-            inputs:
-              command: login
-              containerRegistry: $(acr_service_name)
-
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
@@ -44,6 +38,11 @@ stages:
               mavenAuthenticateFeed: true
               effectivePomSkip: true
               goals: 'package -Dmaven.test.skip=true'
+
+          - script: |
+              export HELM_EXPERIMENTAL_OCI=1
+              echo "$(acr.pull.password)" | helm registry login $(acr.name).azurecr.io --username $(acr.pull.username) --password-stdin
+            displayName: login to acr using helm
 
           - task: Docker@2
             displayName: Build and Push
@@ -59,6 +58,12 @@ stages:
               checkLatestHelmVersion: false
               kubectlVersion: 1.24.9
               checkLatestKubectl: false
+
+          - task: Docker@2
+            displayName: Login to ACR
+            inputs:
+              command: login
+              containerRegistry: $(acr_service_name)
 
           - task: HelmDeploy@0
             displayName: 'Helm package backenddemo'
