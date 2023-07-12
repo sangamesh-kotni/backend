@@ -77,9 +77,9 @@ stages:
               tags: '1.16.0'
 
   - stage: Deployment
-    displayName: Helm pull
+    displayName: kubectl deploy to AKS
     jobs:
-      - deployment: helm_publish_aks
+      - deployment: kubectl_deploy_aks
         displayName: deploy to aks
         environment:
           name: PROD
@@ -87,6 +87,7 @@ stages:
           runOnce:
             deploy:
               steps:
+                - checkout: self
                 - task: Kubernetes@1
                   displayName: kubectl deploy mysql-root-secret.yaml
                   inputs:
