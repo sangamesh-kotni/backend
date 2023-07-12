@@ -29,7 +29,7 @@ stages:
         displayName: Build
         pool:
           vmImage: ubuntu-latest
-        container: mcr.microsoft.com/openjdk/jdk:17-ubuntu
+        container: beginneracademy/azdoagent:1.0
         steps:
 #          - task: JavaToolInstaller@0
 #            inputs:
