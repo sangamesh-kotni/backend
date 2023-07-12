@@ -36,7 +36,7 @@ stages:
               mavenPomFile: 'pom.xml'
               mavenOptions: '-Xmx3072m'
               javaHomeOption: 'JDKVersion'
-              jdkDirectory: '/usr/local/openjdk-18'
+              jdkDirectory: '/usr/local/openjdk-20'
               publishJUnitResults: false
               mavenAuthenticateFeed: true
               effectivePomSkip: true
