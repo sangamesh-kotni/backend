@@ -8,7 +8,7 @@ trigger: none
 variables:
   acr_service_name: 'acr_connection'
   acr.name: 'acrsangam.azurecr.io'
-  acr.pull.password: 'Ak8kQH9p9x1uHaA6ZDQl/7YzIp05ShQ9DDfpui5kOv+ACRCbIDUSb'
+  acr.pull.password: '8YXJbiehE+3lhMkpMuo5xe7YM+y9HXBBpyIl7+XYyx+ACRDV4IlY'
   acr.pull.username: 'token-sangam'
   acr_repo: 'backend-demo'
   image_tag: 1.0
@@ -70,65 +70,65 @@ stages:
               containerRegistry: $(acr_service_name)
               tags: "$(image_tag)"
 
-#  - stage: Deployment
-#    displayName: kubectl deploy to AKS
-#    jobs:
-#      - deployment: kubectl_deploy_aks
-#        displayName: deploy to aks
-#        environment:
-#          name: PROD
-#        strategy:
-#          runOnce:
-#            deploy:
-#              steps:
-#                - checkout: self
-#                - task: Kubernetes@1
-#                  displayName: kubectl deploy mysql-root-secret.yaml
-#                  inputs:
-#                    connectionType: 'Kubernetes Service Connection'
-#                    kubernetesServiceEndpoint: '$(azure.service.connection)'
-#                    command: 'apply'
-#                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-root-secret.yaml'
-#                    secretType: 'dockerRegistry'
-#                    containerRegistryType: 'Azure Container Registry'
-#
-#                - task: Kubernetes@1
-#                  displayName: kubectl deploy mysql-user-secret.yaml
-#                  inputs:
-#                    connectionType: 'Kubernetes Service Connection'
-#                    kubernetesServiceEndpoint: '$(azure.service.connection)'
-#                    command: 'apply'
-#                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-user-secret.yaml'
-#                    secretType: 'dockerRegistry'
-#                    containerRegistryType: 'Azure Container Registry'
-#
-#
-#                - task: Kubernetes@1
-#                  displayName: kubectl deploy mysql-configmap
-#                  inputs:
-#                    connectionType: 'Kubernetes Service Connection'
-#                    kubernetesServiceEndpoint: '$(azure.service.connection)'
-#                    command: 'apply'
-#                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-configmap.yaml'
-#                    secretType: 'dockerRegistry'
-#                    containerRegistryType: 'Azure Container Registry'
-#
-#                - task: Kubernetes@1
-#                  displayName: kubectl deploy mysql-deployment.yaml
-#                  inputs:
-#                    connectionType: 'Kubernetes Service Connection'
-#                    kubernetesServiceEndpoint: '$(azure.service.connection)'
-#                    command: 'apply'
-#                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-deployment.yaml'
-#                    secretType: 'dockerRegistry'
-#                    containerRegistryType: 'Azure Container Registry'
-#
-#                - task: Kubernetes@1
-#                  displayName: kubectl deploy spring-demo-deployment
-#                  inputs:
-#                    connectionType: 'Kubernetes Service Connection'
-#                    kubernetesServiceEndpoint: '$(azure.service.connection)'
-#                    command: 'apply'
-#                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/spring-deployment.yaml'
-#                    secretType: 'dockerRegistry'
-#                    containerRegistryType: 'Azure Container Registry'
+  - stage: Deployment
+    displayName: kubectl deploy to AKS
+    jobs:
+      - deployment: kubectl_deploy_aks
+        displayName: deploy to aks
+        environment:
+          name: PROD
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: Kubernetes@1
+                  displayName: kubectl deploy mysql-root-secret.yaml
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
+                    command: 'apply'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-root-secret.yaml'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
+
+                - task: Kubernetes@1
+                  displayName: kubectl deploy mysql-user-secret.yaml
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
+                    command: 'apply'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-user-secret.yaml'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
+
+
+                - task: Kubernetes@1
+                  displayName: kubectl deploy mysql-configmap
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
+                    command: 'apply'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-configmap.yaml'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
+
+                - task: Kubernetes@1
+                  displayName: kubectl deploy mysql-deployment.yaml
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
+                    command: 'apply'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/mysql-deployment.yaml'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
+
+                - task: Kubernetes@1
+                  displayName: kubectl deploy spring-demo-deployment
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: '$(azure.service.connection)'
+                    command: 'apply'
+                    arguments: '-f $(System.DefaultWorkingDirectory)/kubernates/spring-deployment.yaml'
+                    secretType: 'dockerRegistry'
+                    containerRegistryType: 'Azure Container Registry'
