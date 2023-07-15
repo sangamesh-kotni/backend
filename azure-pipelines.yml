@@ -8,7 +8,7 @@ trigger: none
 variables:
   acr_service_name: 'acr_connection'
   acr.name: 'acrsangam.azurecr.io'
-  acr.pull.password: '8YXJbiehE+3lhMkpMuo5xe7YM+y9HXBBpyIl7+XYyx+ACRDV4IlY'
+  acr.pull.password: 'EtLXNqpyF3NAtA4jDfxxVZJIAZg2mft0BxhNAq8vWP+ACRA7Nvog'
   acr.pull.username: 'token-sangam'
   acr_repo: 'backend-demo'
   image_tag: 1.0
